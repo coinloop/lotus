@@ -108,7 +108,13 @@ var walletBalance = &cli.Command{
 			return err
 		}
 
-		balance, err := api.WalletBalance(ctx, addr)
+		a, err := api.StateLookupID(ctx, addr, types.EmptyTSK)
+		if err != nil {
+			fmt.Printf("%d (could not resolve address to ID-address)\n", 0)
+			return nil
+		}
+
+		balance, err := api.WalletBalance(ctx, a)
 		if err != nil {
 			return err
 		}
